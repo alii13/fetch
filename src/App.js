@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css"
+export default class App extends Component {
+	state = {
+		data: "",
+	};
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	getResponse = () => {
+		fetch("https://jsonplaceholder.typicode.com/todos/1")
+			.then((response) => response.json())
+			.then((json) => {
+        console.log(json)
+				this.setState({
+					data: json,
+				});
+			})
+      .catch((err)=>{
+        this.setState({
+					data: err,
+				});
+      })
+	};
+	render() {
+		return (
+			<div className="container">
+				<pre className="res">
+          {JSON.stringify(this.state.data, undefined, 4)}
+        </pre>
+				<button onClick={this.getResponse}>Fetch</button>
+			</div>
+		);
+	}
 }
-
-export default App;
